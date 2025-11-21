@@ -133,11 +133,15 @@ footer {
 	color: var(--web1-blue);
 }
 
-#testinomial {
+#testimonials {
 	background-color: var(--web1-pink);
 }
 
-#testinomial .col {
+#testimonials .col {
 	background: url('../images/quot.png') left top no-repeat;
 	padding-left: 3rem;
+}
+
+#about-us p {
+	color: rgba(0, 0, 0, 0.5);
 }
