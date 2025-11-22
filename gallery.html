@@ -52,7 +52,7 @@
 					<div class="collapse navbar-collapse" id="menu-header">
 						<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
 							<li class="nav-item">
-								<a class="nav-link active" href="index.html" aria-current="page"
+								<a class="nav-link" href="index.html" aria-current="page"
 									>Home
 									<span class="visually-hidden">(current)</span></a
 								>
@@ -60,7 +60,7 @@
 							<li class="nav-item">
 								<a class="nav-link" href="about.html">About</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-item active">
 								<a class="nav-link" href="gallery.html">Gallery</a>
 							</li>
 							<li class="nav-item">
@@ -94,13 +94,18 @@
 
 		<section class="container py-5">
 			<h1>Gallery</h1>
+			<strong>Filter by category</strong>
+			<ul class="nav" id="gallery-categories">
+			</ul>
+			<div class="row" id="gallery">
+			</div>
 		</section>
 
 		<main></main>
 		<footer class="container-fluid text-center text-white py-3">
 			<ul class="nav justify-content-center py-3" id="menu-footer">
 				<li class="nav-item">
-					<a class="nav-link active" href="index.html" aria-current="page">
+					<a class="nav-link" href="index.html" aria-current="page">
 						Home
 					</a>
 				</li>
@@ -108,7 +113,7 @@
 					<a class="nav-link" href="about.html">About</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="gallery.html">Gallery</a>
+					<a class="nav-link active" href="gallery.html">Gallery</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="blogs.html">Blogs</a>
@@ -184,5 +189,47 @@
 			integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
 			crossorigin="anonymous"
 		></script>
+
+		<!-- Handlebars JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+		<!-- Additional JS Libraries -->
+		<script src="js/23880249.js"></script>
+
+		<script type="text/x-handlebars-template" id="gallery-categories-template">
+				<li class="nav-item">
+					<a class="nav-link disabled ps-0" href="#" aria-current="page" onclick="loadData('gallery', 'gallery-template', 'gallery'); disableLink(this)">Show All:</a
+					>
+				</li>
+				{{#each data}}
+					<li class="nav-item">
+						<a class="nav-link" href="#" onclick="loadData('gallery/categories/{{id}}', 'gallery-template', 'gallery'); disableLink(this)">{{name}}</a>
+					</li>
+				{{/each}}
+		</script>
+
+		<script type="text/x-handlebars-template" id="gallery-template">
+				{{#each data}}
+				<div class="col-md-3">
+					<img src="{{thumbpath}}" alt="{{name}}" class="img-thumbnail mb-3">
+					<p>{{name}}</p>
+				</div>
+				{{/each}}
+		</script>
+
+		<script>
+			loadData("gallery-categories", "gallery-categories-template", "gallery-categories");
+			loadData("gallery", "gallery-template", "gallery");
+
+			function disableLink(link) {
+				let links = document.querySelectorAll("#gallery-categories a");
+
+				for (let i = 0; i < links.length; i++) {
+					links[i].classList.remove("disabled");
+				}
+
+				link.classList.toggle("disabled");
+			}
+		</script>
 	</body>
 </html>
