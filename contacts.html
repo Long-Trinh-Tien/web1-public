@@ -92,8 +92,118 @@
 			
 		</header>
 
+		<section id="banner-small"></section>
 		<section class="container py-5">
 			<h1>Contacts</h1>
+			<div id="map">
+
+			</div>
+
+			<div class="row py-3">
+				<div class="col">
+					<h1>Address</h1>
+					<div class="py-3 text-black-50">
+						227 Nguyen Van Cu, Ward 4, 
+						<br> District 5, 
+						<br> Ho Chi Minh City, Vietnam	
+					</div>
+				</div>
+				<div class="col">
+					<h1>Phone</h1>
+					<div class="py-3 text-black-50">
+						+84 123 456 789
+						<br> +1 987 654 3210
+					</div>
+				</div>
+				<div class="col">
+					<h1>Email</h1>
+					<div class="py-3 text-black-50">
+						someemail@gmail.com
+						<br> hcmus@gmail.com
+					</div>
+				</div>
+			</div>
+
+			<div class="py-3">
+				<h1>Miscelanous Information</h1>
+				<p class="text-black-50">
+					Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio, mollitia laudantium culpa maxime labore ipsa quas aspernatur nam animi delectus repudiandae maiores corrupti minima quos modi dolores possimus recusandae, quia doloribus dolore. Fugit aspernatur similique sapiente exercitationem iure ex expedita?
+				</p>
+				<p class="text-black-50"><i>Please send email to <a href="mailto:someemail@gmail">someemail@gmail</a></i></p>
+				<form action="#" method="post">
+					<div class="row">
+						<div class="col py-3">
+							<div class="mb-3">
+								<label for="name" class="form-label">Name *</label>
+								<input
+									type="text"
+									class="form-control"
+									name="name"
+									id="name"
+									aria-describedby="helpId"
+									placeholder=""
+									required
+								/>
+							</div>
+							
+						</div>
+						<div class="col py-3">
+							<div class="mb-3">
+								<label for="email" class="form-label">Email *</label>
+								<input
+									type="text"
+									class="form-control"
+									name="email"
+									id="email"
+									aria-describedby="helpId"
+									placeholder=""
+									required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+								/>
+							</div>
+							
+						</div>
+						<div class="col py-3">
+							<div class="mb-3">
+								<label for="subject" class="form-label">Subject *</label>
+								<input
+									type="text"
+									class="form-control"
+									name="subject"
+									id="subject"
+									aria-describedby="helpId"
+									placeholder=""
+									required
+								/>
+							</div>
+							
+						</div>
+					</div>
+					<div>
+						<div class="mb-3">
+							<label for="message" class="form-label">Message *</label>
+							<textarea class="form-control" name="message" id="message" rows="3" required></textarea>
+						</div>
+						
+					</div>
+					<div class="text-end">
+						<div class="form-check form-check-inline">
+							<label class="form-check-label" for="copy">Send copy to yourself &nbsp;</label>
+							<input
+								type="checkbox"
+								id="copy"
+								value="1"
+							/>&nbsp;&nbsp;
+						</div>
+						<button
+							type="submit"
+							class="btn btn-primary"
+						>
+							Send email to us
+						</button>
+											
+					</div>
+				</form>
+			</div>
 		</section>
 
 		<main></main>
@@ -184,5 +294,21 @@
 			integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
 			crossorigin="anonymous"
 		></script>
+
+		<!-- Handlebars JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+		<!-- Additional JS Libraries -->
+		<script src="js/23880249.js"></script>
+		<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+		<script src="js/map.js"></script>
+
+
+
+
+
+		<script>
+
+		</script>
 	</body>
 </html>
