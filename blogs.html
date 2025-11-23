@@ -219,10 +219,10 @@
 					{{#each data}}
 						<div class="clearfix py-3">
 							<h3>{{name}}</h3>
-							<p class="text-black-50">by {{author}} in <a href="#" onclick="loadBlogs('blogs/categories/{{category.id}}')">{{category.name}}</a> on {{formatDate date}}. <a href="#">Comments :{{comments.length}}</a></p>
+							<p class="text-black-50">by {{author}} in <a href="#" onclick="loadBlogs('blogs/categories/{{category.id}}')">{{category.name}}</a> on {{formatDate date}}. <a href="#" onclick="loadBlogsDetails({{id}},true)">Comments :{{comments.length}}</a></p>
 							<img src="{{thumbpath}}" alt="{{name}}" class="float-start me-3 mb-2 rounded-4 border">
 							<p class="text-black-50">{{summary}}</p>
-							<a href="#" class="btn btn-link readmore ps-0">Read more</a>
+							<a href="#" class="btn btn-link readmore ps-0" onclick="loadBlogsDetails({{id}})">Read more</a>
 						</div>
 					{{/each}}
 
@@ -244,6 +244,83 @@
 					</nav>
 		</script>
 
+		<script type="text/x-handlebars-template" id="details-template">
+			<h1 class="mb-4">Blogs</h1>
+				{{#each data}}
+				<div class="py-3">
+					<h3>{{name}}</h3>
+					<p>by {{author}} in {{category.name}} on {{formatDate date}}. <a href="#comments">Comments :{{comments.length}}</a></p>
+					<img src="{{imagepath}}" alt="{{name}}" class="float-start me-3 rounded-4">
+					<p class="text-black-50">{{{description}}}</p>
+				</div>
+				<div class="py-3">
+					<h3>Leave your comment</h3>
+					<form action="#" method="post" class="text-black-50">
+						<div class="row">
+							<div class="col-4">
+								<div class="mb-3">
+									<label for="name" class="form-label">Name (Required)</label>
+									<input type="text" class="form-control" name="name" id="name" aria-describedby="helpId" placeholder="" required />
+								</div>
+								
+							</div>
+							<div class="col-4">
+								<div class="mb-3">
+									<label for="email" class="form-label">Email </label>
+									<input type="text" class="form-control" name="email" id="email" aria-describedby="helpId" placeholder="" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="mb-3">
+								<textarea class="form-control" name="message" id="message" rows="3" placeholder="Enter your messages" required></textarea>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input
+										class="form-check-input"
+										type="checkbox"
+										id="agree"
+										name="agree"
+										value="1" required
+									/>
+									<label class="form-check-label" for="agree">Agree to terms</label>
+								</div>
+								
+							</div>
+							<div class="col text-end">
+								<button
+									type="submit"
+									class="btn btn-link py-0 my-0"
+								>
+									Submit Comment
+								</button>
+								
+							</div>
+						</div>
+					</form>
+
+					<a name="comments"></a>
+					<div class="bg-dark text-white-50 p-2">
+						COMMENTS ({{comments.length}})
+					</div>
+					<div class="py-3 text-black-50>
+						{{#each comments}}
+						<div class="mb-3">
+							<p>{{name}} - {{formatDate date}}</p>
+							<p>{{summary}}</p>
+							<hr>
+						</div>
+					</div>
+					{{/each}}
+				</div>
+				{{/each}}
+
+		</script>
+
 		<script>
 			Handlebars.registerHelper("formatDate", (function (date) {
 				let options = {
@@ -258,19 +335,26 @@
 			}));
 
 			async function loadBlogs(request, currentPage = 1) 
-			{
-				const response = await fetch(`${API}/${request}?page=${currentPage}`);
+			{				const response = await fetch(`${API}/${request}?page=${currentPage}`);
 				const data = await response.json();
 				data.currentPage = currentPage;
 				data.request = request;
 				var source = document.getElementById("blogs-template").innerHTML;
 				var template = Handlebars.compile(source);
-				console.log(data);
 				document.getElementById("blogs").innerHTML = template(data);
+			}
+
+			async function loadBlogsDetails(blogId, gotoComments = false) 
+			{
+				await loadData(`blogs/${blogId}`, "details-template", "blogs");
+				if (gotoComments) {
+					window.location.href = "#comments";
+				}
 			}
 
 			loadData("blogs-categories", "blogs-categories-template", "blogs-categories");
 			loadBlogs("blogs");
+			// loadData("blogs-categories", "details-template", "blogs");
 		</script>
 	</body>
 </html>
