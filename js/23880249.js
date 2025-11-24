@@ -8,7 +8,6 @@ async function loadData(request, templateID, targetID)
 
 	var source = document.getElementById(templateID).innerHTML;
 	var template = Handlebars.compile(source);
-	console.log(data);
 	document.getElementById(targetID).innerHTML = template({ data: data });
 }
 
@@ -153,3 +152,12 @@ async function addComment(e) {
 })();
 
 
+// Handle Back/Forward
+if (!history.state) {
+	history.replaceState({page: location.hash || ""}, "");
+}
+
+window.addEventListener("popstate", function (event) {
+	console.log("POPSTATE", event.state);
+	location.reload();
+});
