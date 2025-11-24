@@ -74,11 +74,11 @@
 								<a class="nav-link linkLogout" href="#" onclick="logout()" style="display: none;">Logout</a>
 							</li>
 						</ul>
-						<form class="d-flex my-2 my-lg-0 border rounded-pill ps-3" id="formSearch">
+						<form class="d-flex my-2 my-lg-0 border rounded-pill ps-3" id="formSearch" method="GET" action="search.html">
 							<input
 								class=" border-0"
 								type="text"
-								placeholder="Search"
+								placeholder="Search" name="keyword" id="keyword" required
 							/>
 							<button
 								class="btn my-2 my-sm-0 border-0"

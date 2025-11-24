@@ -8,7 +8,7 @@ async function loadData(request, templateID, targetID)
 
 	var source = document.getElementById(templateID).innerHTML;
 	var template = Handlebars.compile(source);
-
+	console.log(data);
 	document.getElementById(targetID).innerHTML = template({ data: data });
 }
 
@@ -75,7 +75,7 @@ function displayControls(isLogin = true) {
 }
 
 function search(e) {
-	e.preventDefault(), loadData(`search?keyword=${keyword}`, "search-template", "content")
+	e.preventDefault(), loadData(`search?keyword=${keyword}`, "search-template", "contents")
 }
 
 async function getAuthenticateToken(username, password) {
@@ -144,22 +144,12 @@ async function addComment(e) {
 		}
 	}
 }
-// Handlebars.registerHelper("formatDate", (function (date) {
-// 	let options = {
-// 			weekday: "short",
-// 			year: "numeric",
-// 			month: "short",
-// 			day: "numeric",
-// 			timeZoneName: "short"
-// 		},
-// 		formatDate;
-// 	return new Date(date).toLocaleString("en-US", options)
-// })), async function () {
-// 	checkLogin();
-// 	var searchParams = new URLSearchParams(location.search),
-// 		request = searchParams.get("request"),
-// 		isDetails = searchParams.get("isDetails"),
-// 		page = searchParams.get("page") || 1,
-// 		goToComments = "#comments" == window.location.hash;
-// 	request ? isDetails ? await loadBlogDetails(request, goToComments) : loadBlogs(request, page) : loadBlogs("blogs"), loadData("blogs-categories", "blogs-categories-template", "blogs-categories")
-// }();
+
+(async function () {
+	checkLogin();
+	var searchParams = new URLSearchParams(location.search),
+		keyword = searchParams.get("keyword");
+	keyword && "" != keyword.trim() && loadData(`search?keyword=${keyword}`, "search-template", "contents");
+})();
+
+
