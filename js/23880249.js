@@ -70,8 +70,8 @@ function displayControls(isLogin = true) {
 		logoutDisplay = "block";
 	isLogin || (loginDisplay = "block", logoutDisplay = "none");
 	for (let i = 0; i < loginLinks.length; i++) loginLinks[i].style.display = loginDisplay, logoutLinks[i].style.display = logoutDisplay;
-	// let form = document.getElementById("leave-comment");
-	// form && (form.style.display = logoutDisplay);
+	let form = document.getElementById("leave-comment");
+	form && (form.style.display = logoutDisplay);
 }
 
 function search(e) {
@@ -111,39 +111,39 @@ async function getAuthenticateToken(username, password) {
 // async function loadBlogDetails(request, goToComments = !1) {
 // 	await loadData(request, "details-template", "blogs", !0), checkLogin(), goToComments && (window.location.href = "#comments")
 // }
-// async function addComment(e) {
-// 	let auth;
-// 	if (e.preventDefault(), !await getAuth()) return window.alert("Can not submit form without login!"), 0;
-// 	let token = localStorage.getItem("token"),
-// 		agree = document.getElementById("agree").checked;
-// 	if (token && agree) {
-// 		let postData = {
-// 			name: document.getElementById("name").value,
-// 			email: document.getElementById("email").value,
-// 			comment: document.getElementById("message").value,
-// 			blogId: document.getElementById("blogId").value,
-// 			agree: agree
-// 		};
-// 		try {
-// 			if (response = await fetch(`${AUTHENTICATION_API}/comment`, {
-// 					method: "POST",
-// 					headers: {
-// 						"Content-Type": "application/json",
-// 						Accept: "application/json",
-// 						Authorization: "Bearer " + token
-// 					},
-// 					body: JSON.stringify(postData)
-// 				}), 200 != response.status) {
-// 				let result = await response.json();
-// 				throw new Error(result.message)
-// 			}
-// 			loadData(`blogs/${postData.blogId}`, "details-template", "blogs")
-// 		} catch (error) {
-// 			let responseMessage = document.getElementById("response");
-// 			responseMessage.classList.toggle("text-danger"), responseMessage.innerHTML = error
-// 		}
-// 	}
-// }
+async function addComment(e) {
+	let auth;
+	if (e.preventDefault(), !await getAuth()) return window.alert("Can not submit form without login!"), 0;
+	let token = localStorage.getItem("token"),
+		agree = document.getElementById("agree").checked;
+	if (token && agree) {
+		let postData = {
+			name: document.getElementById("name").value,
+			email: document.getElementById("email").value,
+			comment: document.getElementById("comment").value,
+			blogId: document.getElementById("blogId").value,
+			agree: agree
+		};
+		try {
+			if (response = await fetch(`${AUTHENTICATION_API}/comment`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+						Authorization: "Bearer " + token
+					},
+					body: JSON.stringify(postData)
+				}), 200 != response.status) {
+				let result = await response.json();
+				throw new Error(result.message)
+			}
+			loadData(`blogs/${postData.blogId}`, "details-template", "blogs")
+		} catch (error) {
+			let responseMessage = document.getElementById("responseMessage");
+			responseMessage.classList.toggle("text-danger"), responseMessage.innerHTML = error
+		}
+	}
+}
 // Handlebars.registerHelper("formatDate", (function (date) {
 // 	let options = {
 // 			weekday: "short",

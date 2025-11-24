@@ -165,14 +165,17 @@
 						></button>
 					</div>
 					<div class="modal-body" id="formLogin">
-						<form action="#" method="post">
+						<form action="#" method="post" onsubmit="login(event)">
 							<h3 class="text-center mb-3">Login Form</h3>
-							<input type="text" class="form-control mb-3" name="username" id="" placeholder="Username">
-							<input type="password" class="form-control mb-3" name="password" id="" placeholder="Password">
+							<input type="text" class="form-control mb-3" name="username" id="username" placeholder="Username">
+							<input type="password" class="form-control mb-3" name="password" id="password" placeholder="Password">
 							<button type="submit" class="form-control">Login</button>
 						</form>
 					</div>
 					<div class="modal-footer">
+						<div class="text-danger text-center" id="errorMessage">
+							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -255,9 +258,10 @@
 					<img src="{{imagepath}}" alt="{{name}}" class="float-start me-3 rounded-4">
 					<p class="text-black-50">{{{description}}}</p>
 				</div>
-				<div class="py-3">
+				<div class="py-3" id="leave-comment">
 					<h3>Leave your comment</h3>
-					<form action="#" method="post" class="text-black-50">
+					<form action="#" method="post" class="text-black-50" onsubmit="addComment(event)">
+						<input type="hidden" name="blogId" id="blogId" value="{{id}}">
 						<div class="row">
 							<div class="col-4">
 								<div class="mb-3">
@@ -275,7 +279,7 @@
 						</div>
 						<div>
 							<div class="mb-3">
-								<textarea class="form-control" name="message" id="message" rows="3" placeholder="Enter your messages" required></textarea>
+								<textarea class="form-control" name="comment" id="comment" rows="3" placeholder="Enter your messages" required></textarea>
 							</div>
 							
 						</div>
@@ -303,8 +307,14 @@
 								
 							</div>
 						</div>
+						<div class="text-center">
+							<div class="text-success" id="responseMessage">
+								
+							</div>
+						</div>
 					</form>
-
+				</div>
+				<div>
 					<a name="comments"></a>
 					<div class="bg-dark text-white-50 p-2">
 						COMMENTS ({{comments.length}})
@@ -316,8 +326,8 @@
 							<p>{{summary}}</p>
 							<hr>
 						</div>
+						{{/each}}
 					</div>
-					{{/each}}
 				</div>
 				{{/each}}
 
@@ -350,6 +360,7 @@
 			async function loadBlogsDetails(blogId, gotoComments = false) 
 			{
 				await loadData(`blogs/${blogId}`, "details-template", "blogs");
+				checkLogin();
 				if (gotoComments) {
 					window.location.href = "#comments";
 				}
