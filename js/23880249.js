@@ -1,4 +1,5 @@
 const API='https://web1-api.vercel.app/api';
+const AUTHENTICATION_API = "https://web1-api.vercel.app/users";
 
 async function loadData(request, templateID, targetID) 
 {
@@ -20,6 +21,79 @@ function setActiveImagePath(img, imgPath, isActive=true) {
 	img.nextElementSibling.classList.toggle('web1-text-blue');
 }
 
+async function login(e) {
+	e.preventDefault();
+	let username = document.getElementById("username").value,
+		password = document.getElementById("password").value;
+	document.getElementById("errorMessage").innerHTML = "";
+	try {
+		let token = await getAuthenticateToken(username, password);
+		if (token) {
+			localStorage.setItem("token", token);
+			document.getElementsByClassName("btn-close")[0].click();
+			displayControls();
+		}
+	} catch (error) {
+		document.getElementById("errorMessage").innerText = error;
+		displayControls(false)
+	}
+}
+
+function logout() {
+	localStorage.clear();
+	displayControls(false);
+}
+async function checkLogin() {
+	const isLogin = await getAuth();
+	displayControls(isLogin)
+}
+async function getAuth() {
+	let token = localStorage.getItem("token");
+	if (token) {
+		let response;
+		if (200 == (await fetch(`${AUTHENTICATION_API}/verify`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: "Bearer " + token
+				}
+			})).status) return true
+	}
+	return false;
+}
+
+function displayControls(isLogin = true) {
+	let loginLinks = document.getElementsByClassName("linkLogin"),
+		logoutLinks = document.getElementsByClassName("linkLogout"),
+		loginDisplay = "none",
+		logoutDisplay = "block";
+	isLogin || (loginDisplay = "block", logoutDisplay = "none");
+	for (let i = 0; i < loginLinks.length; i++) loginLinks[i].style.display = loginDisplay, logoutLinks[i].style.display = logoutDisplay;
+	// let form = document.getElementById("leave-comment");
+	// form && (form.style.display = logoutDisplay);
+}
+
+function search(e) {
+	e.preventDefault(), loadData(`search?keyword=${keyword}`, "search-template", "content")
+}
+
+async function getAuthenticateToken(username, password) {
+	let response = await fetch(`${AUTHENTICATION_API}/authenticate`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json"
+			},
+			body: JSON.stringify({
+				username: username,
+				password: password
+			})
+		}),
+		result = await response.json();
+	if (200 == response.status) return result.token;
+	throw new Error(result.message)
+}
 
 // async function loadBlogs(request, currentPage = 1) {
 // 	const response = await fetch(`${API}/${request}?page=${currentPage}`),
